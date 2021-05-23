@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Entrar</title>
-
+    <link rel="shortcut icon" href="{{asset('logo.png')}}">
     <style>
         .form-register{
             margin-right: 25rem!important;
@@ -18,16 +18,21 @@
 </head>
 <body>
     <div class = "form-register">
+        <center>
+            <figure class="figure">
+                <img src="{{asset('logo.png')}}" width="30%" class="figure-img img-fluid rounded" alt="...">
+            </figure>
+        </center>
         <form action="{{route('validate.user')}}" method = "POST">
         @csrf
             <div>
                 <p style = "color: red;">{{$erro}}</p>
             </div>
             <h6>Email</h6>
-            <input type="email" class = "form-control" name= "email" placehouder = "Informe seu email" required/>
+            <input type="email" class = "form-control mb-3" name= "email" placehouder = "Informe seu email" required/>
 
             <h6>Senha</h6>
-            <input type="password" class = "form-control" name = "password" required/>
+            <input type="password" class = "form-control mb-3" name = "password" required/>
             
             <div>
                 <input class="btn btn-primary" type="submit" value="ENTRAR">

@@ -138,9 +138,23 @@ class EnterpriseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function updateName(Request $request)
     {
-        //
+        $enterprise = Enterprise::where('id', $request->enterprise_id)->get()->first();
+        $enterprise->name = $request->name;
+        $enterprise->save();
+        $enterprises = Enterprise::all();
+        $federations = Federation::all();
+        return view('user', compact('enterprises', 'federations'));
+    }
+
+    public function updateFederation(Request $request){
+        $enterprise = Enterprise::where('id', $request->enterprise_id)->get()->first();
+        $enterprise->federation_id = $request->federation;
+        $enterprise->save();
+        $enterprises = Enterprise::all();
+        $federations = Federation::all();
+        return view('user', compact('enterprises', 'federations'));
     }
 
     /**
@@ -149,8 +163,21 @@ class EnterpriseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $enterprise = Enterprise::where('id', $request->enterprise_id)->get()->first();
+
+        $enterprise->delete();
+        $enterprises = Enterprise::all();
+        $federations = Federation::all();
+
+        return view('user',compact('enterprises', 'federations'));
+
+    }
+
+    public function pageEdit(Request $request){
+        $enterprise = Enterprise::where('id', $request->enterprise_id)->get()->first();
+        $federations = Federation::all();
+        return view('enterprise', compact('enterprise', 'federations'));
     }
 }

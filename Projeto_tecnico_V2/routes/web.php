@@ -31,3 +31,11 @@ Route::get('/user/search-enterprise-by-federation', [EnterpriseController::class
 Route::get('/user/search-enterprise-by-name', [EnterpriseController::class, 'showByName'])->name('searchByN.enterprise');
 Route::post('/user/registerEnterprise/action', [EnterpriseController::class, 'store'])->name('store.enterprise');
 Route::get('/user/logout', [VerificatorController::class, 'destroy'])->name('user.logout');
+Route::get('/user/configuration', [UserController::class, 'configPage'])->name('user.config');
+Route::post('user/configuration/action-delete', [UserController::class, 'destroy'])->name('user.destroy');
+Route::post('/user/configuration/action-up-email', [UserController::class, 'updateEmail'])->name('user.alter.email');
+Route::post('/user/configuration/action-up-password', [UserController::class, 'updatePassword'])->name('user.alter.password');
+Route::post('/user/delete-enterprise', [EnterpriseController::class, 'destroy'])->name('enterprise.delete');
+Route::get('/enterprise/edit', [EnterpriseController::class, 'pageEdit'])->name('enterprise.edit');
+Route::post('/enterprise/edit-name', [EnterpriseController::class, 'updateName'])->name('enterprise.alter.name');
+Route::post('/enterprise/edit-federation', [EnterpriseController::class, 'updateFederation'])->name('enterprise.alter.federation');

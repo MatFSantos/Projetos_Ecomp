@@ -20,6 +20,20 @@ class UserController extends Controller
         //
     }
 
+    public function configPage(){
+        $verificator = Verificator::all()->first();
+
+        if($verificator == null){
+            $erro = "";
+            return view('login', compact('erro'));
+        }
+        else{
+            $user = $verificator->user;
+            $erro = "";
+            return view('configuration', compact('user', 'erro'));    
+        }
+    }
+
 
     public function loginPage(){
         $erro = "";
@@ -135,16 +149,32 @@ class UserController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+
+    public function updateEmail(Request $request)
     {
-        //
+        $user = Verificator::all()->first()->user;
+        $user->email = $request->email;
+        $user->save();
+        return $this->configPage();
+    }
+
+    public function updatePassword(Request $request)
+    {
+        if($request->password == $request->confirm_password){
+            if(strlen($request->password)>=8){
+                $user = Verificator::all()->first()->user;
+                $user->password = $request->password;
+                $user->save();
+                $erro = "Senha alterada";
+            }
+            else
+                $erro = "Senha deve conter 8 ou mais digitos";
+        }
+        else
+            $erro = "Senhas não batem";
+        $verificator = Verificator::all()->first();
+        $user = $verificator->user;
+        return view('configuration', compact('user', 'erro'));
     }
 
     /**
@@ -153,8 +183,13 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $verificator = Verificator::all()->first();
+        $user = $verificator->user;
+        $verificator->delete();
+        $verificator = null;
+        $user->delete();
+        return view('welcome', compact('verificator') );
     }
 }
